@@ -118,6 +118,10 @@ vim.schedule(function()
   vim.o.clipboard = 'unnamedplus'
 end)
 
+vim.opt.shiftwidth = 2 -- The amount of space inserted for each indent.
+vim.opt.tabstop = 2 -- The number of spaces that a <Tab> counts for.
+vim.opt.expandtab = true -- Converts tabs to spaces.
+
 -- Enable break indent
 vim.o.breakindent = true
 
@@ -183,6 +187,8 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 vim.keymap.set('n', '<leader>x', ':Ex<CR>', { desc = 'E[x] Command' })
+vim.keymap.set('n', '<leader>b', '<C-o>', { desc = 'Jump back' })
+vim.keymap.set('n', '<leader>w', '<C-i>', { desc = 'Jump forward' })
 
 -- NOTE: Some terminals have colliding keymaps or are not able to send distinct keycodes
 -- vim.keymap.set("n", "<C-S-h>", "<C-w>H", { desc = "Move window to the left" })
@@ -664,14 +670,14 @@ require('lazy').setup({
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
-        clangd = {
-          cmd = { 'clangd', '--background-index', '--clang-tidy', '--log=verbose' },
-          init_options = {
-            fallbackFlags = { '-std=c++17' },
-          },
-        },
+        -- clangd = {
+        --   cmd = { 'clangd', '--background-index', '--clang-tidy', '--log=verbose' },
+        --   init_options = {
+        --     fallbackFlags = { '-std=c++17' },
+        --   },
+        -- },
         -- gopls = {},
-        -- pyright = {},
+        pyright = {},
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
@@ -679,9 +685,9 @@ require('lazy').setup({
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
-        -- ts_ls = {},
-        --,
-
+        ts_ls = {},
+        eslint = {},
+        tailwindcss = {},
         lua_ls = {
           -- cmd = { ... },
           -- filetypes = { ... },
@@ -767,7 +773,11 @@ require('lazy').setup({
       formatters_by_ft = {
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
-        -- python = { "isort", "black" },
+        python = { 'isort', 'black' },
+        javascript = { 'prettier' },
+        javascriptreact = { 'prettier' },
+        typescript = { 'prettier' },
+        typescriptreact = { 'prettier' },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
         -- javascript = { "prettierd", "prettier", stop_after_first = true },
@@ -972,17 +982,18 @@ require('lazy').setup({
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
   -- require 'kickstart.plugins.debug',
-  -- require 'kickstart.plugins.indent_line',
+  require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
   -- require 'kickstart.plugins.autopairs',
   -- require 'kickstart.plugins.neo-tree',
-  -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
+  require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
   --
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
-  -- { import = 'custom.plugins' },
+  { import = 'custom.plugins.harpoon' },
+  { import = 'custom.plugins.quickscope' },
   --
   -- For additional information with loading, sourcing and examples see `:help lazy.nvim-🔌-plugin-spec`
   -- Or use telescope!
