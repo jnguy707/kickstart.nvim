@@ -688,6 +688,8 @@ require('lazy').setup({
         ts_ls = {},
         eslint = {},
         tailwindcss = {},
+        cssls = {},
+        -- cssmodules_ls = {},
         lua_ls = {
           -- cmd = { ... },
           -- filetypes = { ... },
